@@ -1,101 +1,123 @@
 #include <iostream>
-#include <fstream>
-#include <ctime>
-#include<string>
 #include <cstdlib>
+#include <ctime>
 
-using namespace std;
-
-// Éú³ÉÖ¸¶¨·¶Î§ÄÚµÄËæ»úÕûÊı
-int generateRandomNumber(int maxNum) {
-    return rand() % (maxNum + 1);
+// ç”Ÿæˆä¸€ä¸ªéšæœºæ•´æ•°
+int generate_random(int min, int max) {
+    return rand() % (max - min + 1) + min;
 }
 
-// Éú³É´øÀ¨ºÅµÄËÄÔòÔËËã±í´ïÊ½
-string generateExpression(int maxNum, bool withParentheses, bool withDecimal) {
-    int num1 = generateRandomNumber(maxNum);
-    int num2 = generateRandomNumber(maxNum);
-    int num3 = generateRandomNumber(maxNum);
-    char op1 = "+-*/"[rand() % 4];
-    char op2 = "+-*/"[rand() % 4];
-
-    string expression;
-
-    if (withParentheses && rand() % 2 == 0) {
-        expression += "(";
-    }
-
-    expression += to_string(num1);
-    expression += op1;
-    expression += to_string(num2);
-
-    if (withParentheses && rand() % 2 == 0) {
-        expression += ")";
-    }
-
-    expression += op2;
-    expression += to_string(num3);
-
-    if (withDecimal && rand() % 2 == 0) {
-        expression += ".";
-        expression += to_string(rand() % 100); // Éú³ÉĞ¡Êı²¿·Ö
-    }
-
-    return expression;
-}
-
-// Éú³ÉÖ¸¶¨ÊıÁ¿µÄËÄÔòÔËËãÌâÄ¿
-void generateExercises(int numExercises, int maxNum, bool withParentheses, bool withDecimal, char op) {
-    ofstream outputFile("exercises.txt"); // ½«ÌâÄ¿Êä³öµ½ÎÄ¼şÖĞ
-
-    if (!outputFile.is_open()) {
-        cout << "´íÎó£ºÎŞ·¨´ò¿ªÎÄ¼ş½øĞĞĞ´Èë¡£" << endl;
-        return;
-    }
-
-    srand(time(0)); // Ê¹ÓÃµ±Ç°Ê±¼ä×÷ÎªËæ»úÖÖ×Ó
-
-    for (int i = 0; i < numExercises; ++i) {
-        string expression = generateExpression(maxNum, withParentheses, withDecimal);
-
-        // Èç¹ûÓÃ»§Ö¸¶¨ÁËÔËËã·û£¬Ìæ»»±í´ïÊ½ÖĞµÄÔËËã·û
-        if (op != '\0') {
-            for (char& c : expression) {
-                if (c == '+' || c == '-' || c == '*' || c == '/') {
-                    c = op;
-                }
-            }
+// ç”Ÿæˆä¸€å¹´çº§çš„åŠ æ³•æˆ–å‡æ³•è¿ç®—å¼
+void generate_grade_one_exercise(int count, int min, int max) {
+    srand(time(NULL));
+    for (int i = 0; i < count; i++) {
+        int num1 = generate_random(min, max);
+        int num2 = generate_random(min, max);
+        int operation = generate_random(0, 1); // 0è¡¨ç¤ºåŠ æ³•ï¼Œ1è¡¨ç¤ºå‡æ³•
+        char oper;
+        if (operation == 0) {
+            oper = '+';
         }
-
-        outputFile << expression << " =" << endl;
+        else {
+            oper = '-';
+        }
+        std::cout << num1 << " " << oper << " " << num2 << " = " << std::endl;
     }
+}
 
-    outputFile.close();
+// ç”ŸæˆäºŒå¹´çº§çš„åŠ æ³•å’Œå‡æ³•æ··åˆè¿ç®—å¼
+void generate_grade_two_exercise(int count, int min, int max) {
+    srand(time(NULL));
+    for (int i = 0; i < count; i++) {
+        int num1 = generate_random(min, max);
+        int num2 = generate_random(min, max);
+        int operation = generate_random(0, 1); // 0è¡¨ç¤ºåŠ æ³•ï¼Œ1è¡¨ç¤ºå‡æ³•
+        char oper;
+        if (operation == 0) {
+            oper = '+';
+        }
+        else {
+            oper = '-';
+        }
+        std::cout << num1 << " " << oper << " " << num2 << " = " << std::endl;
+    }
+}
 
-    cout << "ÌâÄ¿Éú³É³É¹¦£¬Çë¼ì²é 'exercises.txt' ÎÄ¼ş¡£" << endl;
+// ç”Ÿæˆä¸‰å¹´çº§çš„åŠ æ³•ã€å‡æ³•å’Œä¹˜æ³•æ··åˆè¿ç®—å¼
+void generate_grade_three_exercise(int count, int min, int max) {
+    srand(time(NULL));
+    for (int i = 0; i < count; i++) {
+        int num1 = generate_random(min, max);
+        int num2 = generate_random(min, max);
+        int operation = generate_random(0, 2); // 0è¡¨ç¤ºåŠ æ³•ï¼Œ1è¡¨ç¤ºå‡æ³•ï¼Œ2è¡¨ç¤ºä¹˜æ³•
+        char oper;
+        if (operation == 0) {
+            oper = '+';
+        }
+        else if (operation == 1) {
+            oper = '-';
+        }
+        else {
+            oper = '*';
+        }
+        std::cout << num1 << " " << oper << " " << num2 << " = " << std::endl;
+    }
+}
+
+// ç”Ÿæˆå››åˆ°å…­å¹´çº§çš„å¤æ‚è¿ç®—å¼
+void generate_high_grade_exercise(int count, int min, int max, bool need_parentheses) {
+    srand(time(NULL));
+    for (int i = 0; i < count; i++) {
+        int num1 = generate_random(min, max);
+        int num2 = generate_random(min, max);
+        int num3 = generate_random(min, max);
+        char ops[4] = { '+', '-', '*', '/' };
+        char op1 = ops[generate_random(0, 3)];
+        char op2 = ops[generate_random(0, 3)];
+
+        if (need_parentheses) {
+            std::cout << "(" << num1 << " " << op1 << " " << num2 << ") " << op2 << " " << num3 << " = " << std::endl;
+        }
+        else {
+            std::cout << num1 << " " << op1 << " " << num2 << " " << op2 << " " << num3 << " = " << std::endl;
+        }
+    }
 }
 
 int main() {
-    int numExercises, maxNum;
-    char op;
-    bool withParentheses, withDecimal;
+    int grade, num_questions, min_range, max_range;
 
-    cout << "ÇëÊäÈëÌâÄ¿ÊıÁ¿£º";
-    cin >> numExercises;
+    std::cout << "è¯·è¾“å…¥å¹´çº§ï¼ˆ1-6ï¼‰ï¼š";
+    std::cin >> grade;
 
-    cout << "ÇëÊäÈë×î´óÊıÖµ£º";
-    cin >> maxNum;
+    std::cout << "è¯·è¾“å…¥é¢˜ç›®æ•°é‡ï¼š";
+    std::cin >> num_questions;
 
-    cout << "ÊÇ·ñĞèÒªÀ¨ºÅ£¿£¨1 ±íÊ¾ÊÇ£¬0 ±íÊ¾·ñ£©£º";
-    cin >> withParentheses;
+    std::cout << "è¯·è¾“å…¥æœ€å°èŒƒå›´ï¼š";
+    std::cin >> min_range;
 
-    cout << "ÊÇ·ñĞèÒªĞ¡Êı£¿£¨1 ±íÊ¾ÊÇ£¬0 ±íÊ¾·ñ£©£º";
-    cin >> withDecimal;
+    std::cout << "è¯·è¾“å…¥æœ€å¤§èŒƒå›´ï¼š";
+    std::cin >> max_range;
 
-    cout << "ÇëÊäÈëÔËËã·û£¨+¡¢-¡¢*¡¢/£©£¬»òÕßÊäÈë 0 Éú³ÉËæ»úÔËËã·û£º";
-    cin >> op;
-
-    generateExercises(numExercises, maxNum, withParentheses, withDecimal, op);
+    switch (grade) {
+    case 1:
+        generate_grade_one_exercise(num_questions, min_range, max_range);
+        break;
+    case 2:
+        generate_grade_two_exercise(num_questions, min_range, max_range);
+        break;
+    case 3:
+        generate_grade_three_exercise(num_questions, min_range, max_range);
+        break;
+    case 4:
+    case 5:
+    case 6:
+        generate_high_grade_exercise(num_questions, min_range, max_range, true); // éœ€è¦æ‹¬å·
+        break;
+    default:
+        std::cout << "è¯·è¾“å…¥æœ‰æ•ˆçš„å¹´çº§ï¼ˆ1-6ï¼‰ï¼" << std::endl;
+        break;
+    }
 
     return 0;
 }
